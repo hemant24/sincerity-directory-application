@@ -1,0 +1,21 @@
+# Ignore everything by default, allowing Sincerity to manage it
+/cache
+/component/appconfig
+/component/applications/prudence-admin
+/component/applications/prudence-example
+/component/applications/mongovision
+/component/clients
+/component/default.js
+/component/services
+/component/templates
+/configuration
+/executables
+/logs
+/programs
+/reference
+
+
+# Sincerity configuration
+!/configuration/sincerity/repositories.conf
+!/configuration/sincerity/dependencies.conf
+!/configuration/sincerity/shortcuts.conf
