@@ -50,5 +50,12 @@ app.globals = {
 	mongoDb: {
 		defaultUris: 'localhost:27017',
 		defaultDb: 'directory'
+	},
+	diligence : {
+		service : {
+			backup : {
+				importFixtures : true
+			}
+		}
 	}
 }
