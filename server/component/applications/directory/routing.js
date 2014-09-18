@@ -22,7 +22,11 @@ app.routes = {
 		}
 	],
 	'employee/' : '@employee',
-	'employee/{id}/' : '@employee'
+	'employee/{id}/' : '@employee',
+	'company/' : '@company',
+	'company/{id}/' : '@company',
+	'link/' : '@link',
+	'link/{id}/' : '@link'
 
 }
 
