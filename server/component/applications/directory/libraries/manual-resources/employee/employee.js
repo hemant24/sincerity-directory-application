@@ -36,6 +36,10 @@ Directory.Employee = Directory.Employee || Sincerity.Classes.define(function() {
 	Public.handlePost = function(conversation){
 	    try{
 	        var employee =  Util.Service.getValidJson(conversation, dictionary)
+	        employee = employee.employee
+	        if(! employee.name){
+				return Util.Service.convertError(conversation,'employee name cannot be null')
+	        }
 	        employeeCollection.save(employee)
 	    }catch(msg){
 	        return Util.Service.convertError(conversation,msg)
@@ -53,7 +57,12 @@ Directory.Employee = Directory.Employee || Sincerity.Classes.define(function() {
 	        }
 	       
 	        var employeeForm =  Util.Service.getValidJsonForUpdate(conversation, dictionary)
+	        employeeForm = employeeForm.employee
+
 	        Util.Service.mergeRecursive(existingEmployee, employeeForm)
+	        if(! existingEmployee.name){
+				return Util.Service.convertError(conversation,'employee name cannot be null')
+	        }
 	        employeeCollection.save(existingEmployee)
 	        return Util.Service.convert(conversation, {data : existingEmployee}, 'employee', 'employee')
 	    }catch(msg){
