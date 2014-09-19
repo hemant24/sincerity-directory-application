@@ -17,7 +17,8 @@ Directory.Employee = Directory.Employee || Sincerity.Classes.define(function() {
 	    employee : {
 	        name : 'string',
 	        age : 'int',
-	        gender : 'string'
+	        gender : 'string',
+	        designation : 'string'
 	    }
 	}
 

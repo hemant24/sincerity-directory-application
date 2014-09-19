@@ -16,8 +16,9 @@ Directory.Company = Directory.Company || Sincerity.Classes.define(function() {
 	var dictionary = {
 	    company : {
 	        name : 'string',
-	        address : 'string',
-	        date_of_est : 'string'
+	        location : 'string',
+	        doe : 'string',
+	        indusType : 'string'
 	    }
 	}
 
