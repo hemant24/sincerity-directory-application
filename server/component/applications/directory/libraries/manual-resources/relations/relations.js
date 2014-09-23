@@ -68,6 +68,7 @@ Directory.Relations = Directory.Relations || function(){
 			var companyId = conversation.query.get('companyId')
 			var employeeId = conversation.query.get('employeeId')
 			var id = conversation.locals.get('id')
+			var result = {}
 			var query = {}
 			if(companyId){
 				query['companyId'] = companyId
@@ -78,9 +79,55 @@ Directory.Relations = Directory.Relations || function(){
 			if(id){
 				query = {}
 				query['_id'] = MongoDB.id(id)
+				result['data'] = linkCollection.findOne(query)
+			}else{
+				result['data'] = linkCollection.find(query).toArray()
 			}
-			var links = linkCollection.find(query).toArray()
-			return Util.Service.convert(conversation, {data : links}, 'links', 'link')
+			
+			return Util.Service.convert(conversation, result, 'links', 'link')
+
+		}
+		Public.handlePut = function(conversation){
+			var linkId = conversation.locals.get('id')
+			var query = {}
+			query['_id'] = MongoDB.id(linkId)
+			try{
+				var existingLink = linkCollection.findOne({_id : MongoDB.id(linkId)})
+				if(!existingLink){
+		            return Util.Service.convertError(conversation,'link does not exists')
+		        }
+		        var linkForm =  Util.Service.getValidJsonForUpdate(conversation, dictionary)
+				linkForm = linkForm.link
+				if(!linkForm){
+					linkForm = {}
+				}
+		        var employeeId = linkForm.employeeId
+		        var companyId = linkForm.companyId
+		        if(employeeId || companyId){
+		        	if(employeeId){
+						var employee = employeeCollection.findOne({_id : MongoDB.id(employeeId)})
+				        if(!employee){
+				        	return Util.Service.convertError(conversation,'employee does not exists')
+				        }
+		        	}
+		        	if(companyId){
+		        		var company = companyCollection.findOne({_id : MongoDB.id(companyId)})
+				        if(!company){
+				        	return Util.Service.convertError(conversation,'company does not exists')
+				        }
+		        	}
+
+		        	Util.Service.mergeRecursive(existingLink, linkForm)
+		        	linkCollection.save(existingLink)
+		        	return Util.Service.convert(conversation, {data : existingLink}, 'links', 'link')
+		        }else{
+		        	return Util.Service.convertError(conversation,'specify either employeeId or companyId')
+		        }
+
+
+			}catch(msg){
+		        return Util.Service.convertError(conversation,msg)
+		    }
 
 		}
 		Public.handleDelete = function(conversation){
