@@ -56,12 +56,13 @@ Directory.Relations = Directory.Relations || function(){
 		        if(existingLink){
 		        	return Util.Service.convertError(conversation,'link already exists')
 		        }else{
-		        	linkCollection.save({employeeId : employeeId , companyId : companyId })
+		        	linkCollection.save(linkForm)
+		        	return Util.Service.convert(conversation, {data : linkForm}, 'links', 'link')
 		        }
 		    }catch(msg){
 		        return Util.Service.convertError(conversation,msg)
 		    }
-		    return Util.Service.convert(conversation, {data : {status : 'success'}}, 'result', 'result')
+		    
 		}
 
 		Public.handleGet = function(conversation){
