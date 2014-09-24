@@ -87,12 +87,15 @@ Directory.Employee = Directory.Employee || Sincerity.Classes.define(function() {
 
 	Public.handleGet = function(conversation){
 		var employeeId = conversation.locals.get('id')
+		var searchedEmployeeName = conversation.query.get('q')
 		var query = {}
 		var result = {}
 		if(employeeId){
 			query['_id'] = MongoDB.id(employeeId)
 			var employee = employeeCollection.findOne(query)
 			result['data'] = employee
+		}else if(searchedEmployeeName && searchedEmployeeName.length() > 0 ){
+			result['data'] = employeeCollection.find({name : {'$regex' : searchedEmployeeName} }).toArray()
 		}else{
 			var employeeList = employeeCollection.find(query).toArray()
 			result['data'] = employeeList

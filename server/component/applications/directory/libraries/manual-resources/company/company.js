@@ -87,12 +87,15 @@ Directory.Company = Directory.Company || Sincerity.Classes.define(function() {
 
 	Public.handleGet = function(conversation){
 		var companyId = conversation.locals.get('id')
+		var searchedCompanyName = conversation.query.get('q')
 		var query = {}
 		var result = {}
 		if(companyId){
 			query['_id'] = MongoDB.id(companyId)
 			var company = companyCollection.findOne(query)
 			result['data'] = company
+		}else if(searchedCompanyName && searchedCompanyName.length() > 0 ){
+			result['data'] = companyCollection.find({name : {'$regex' : searchedCompanyName} }).toArray()
 		}else{
 			var companyList = companyCollection.find(query).toArray()
 			result['data'] = companyList
