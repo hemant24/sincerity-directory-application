@@ -26,8 +26,9 @@ app.routes = {
 	'company/' : '@company',
 	'company/{id}/' : '@company',
 	'link/' : '@link',
-	'link/{id}/' : '@link'
-
+	'link/{id}/' : '@link',
+	'company/{id}/comment/' : '@companyComment',
+	'employee/{id}/comment/' : '@employeeComment'
 }
 
 app.hosts = {
